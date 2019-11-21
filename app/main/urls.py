@@ -19,6 +19,6 @@ from bank import views as customer_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'read', customer_view.read, name = 'read')
+    # path(r'read', customer_view.read, name = 'read')
 
 ]
