@@ -1,14 +1,13 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import City, Branch, Customer, Account
+from .models import Branch, Customer, Account, Product
 
 
 admin.site.register((
-    City,
     Branch,
     Customer,
     Account,
-    # Product
+    Product
     ))
 

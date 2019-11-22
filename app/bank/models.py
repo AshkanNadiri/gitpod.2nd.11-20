@@ -4,16 +4,9 @@ import uuid
 
 
 # Create your models here.
-class City(models.Model):
-    city_name = models.CharField(max_length =20)
 
-    class Meta:
-        verbose_name_plural = 'cities'
-    def __str__(self):
-        return (f"City: {self.city_name}")
 
 class Branch(models.Model):
-    city = models.ForeignKey(City,on_delete = models.CASCADE)
 
     branch_name = models.CharField(max_length = 30)
     branch_location = models.CharField(max_length = 30)
@@ -24,7 +17,7 @@ class Branch(models.Model):
         verbose_name_plural = 'Branches'
 
     def __str__(self):
-        return (f"Bank : {self.branch_name} | Location : {self.branch_location}| City: {self.city}")
+        return (f"Bank : {self.branch_name} | Location : {self.branch_location}")
 
 
 class Customer(models.Model):
@@ -44,6 +37,7 @@ class Customer(models.Model):
     )
     def __str__(self):
         return (f"Name: {self.customer_name}| Gender: {self.customer_gender}")
+
 
 class Account(models.Model):
     customer = models.OneToOneField(
@@ -68,8 +62,24 @@ class Account(models.Model):
 
 
 class Product(models.Model):
-    account = models.OneToOneField(
+    account = models.ForeignKey(
         Account,
         on_delete = models.CASCADE
     )
+    product_types = (
+        ('mortgage','MORTGAGE'),
+        ('loan','LOAN'),
+        ('leasing','LEASING'),
+        ('treasury','TREASURY'),
+        ('ach','ACH')   
+    )
+    product_options = models.CharField(
+        max_length = 30,
+        choices = product_types,
+        default = product_types[0]
+    )
+
+    def __str__ (self):
+        return (f"{self.account} | Product: {self.product_options}")
+
 
