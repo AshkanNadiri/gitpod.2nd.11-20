@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 
 
@@ -14,8 +15,10 @@ class City(models.Model):
 class Branch(models.Model):
     city = models.ForeignKey(City,on_delete = models.CASCADE)
 
-    branch_name = models.CharField(max_length = 30,default='N/A')
-    branch_location = models.CharField(max_length = 30,default='N/A')
+    branch_name = models.CharField(max_length = 30)
+    branch_location = models.CharField(max_length = 30)
+    location_id = str(uuid.uuid4())
+
 
     class Meta:
         verbose_name_plural = 'Branches'
@@ -33,7 +36,7 @@ class Customer(models.Model):
     branch = models.ForeignKey(
         Branch,
         on_delete = models.CASCADE)
-    customer_name = models.CharField(max_length = 30,default='N/A')
+    customer_name = models.CharField(max_length = 30)
     customer_gender = models.CharField(
         max_length = 20,
         choices = customer_gender,
@@ -54,7 +57,7 @@ class Account(models.Model):
         ('saving','SAVING')
     ]
 
-    amount = models.CharField(max_length =30,default='N/A')
+    amount = models.CharField(max_length =30)
     account_options = models.CharField(
         max_length = 30,
         choices = account_type,
@@ -64,8 +67,9 @@ class Account(models.Model):
         return (f"Customer: {self.customer.customer_name}| Account type: {self.account_options}| Amount: {self.amount}")
 
 
-# class Product(models.Model):
-#     account = models.OneToOneField(
-#         Account,
-#         on_delete = models.CASCADE
-#     )
+class Product(models.Model):
+    account = models.OneToOneField(
+        Account,
+        on_delete = models.CASCADE
+    )
+
